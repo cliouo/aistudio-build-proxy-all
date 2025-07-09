@@ -12,7 +12,7 @@ def handle_untrusted_dialog(page: Page, logger=None):
     try:
         if ok_button_locator.is_visible(timeout=10000): # 等待最多10秒
             logger.info(f"检测到弹窗，正在点击 'OK' 按钮...")
-            
+
             ok_button_locator.click(force=True)
             logger.info(f"'OK' 按钮已点击。")
             expect(ok_button_locator).to_be_hidden(timeout=1000)
@@ -21,6 +21,28 @@ def handle_untrusted_dialog(page: Page, logger=None):
             logger.info(f"在10秒内未检测到弹窗，继续执行...")
     except Exception as e:
         logger.info(f"检查弹窗时发生意外：{e}，将继续执行...")
+
+def handle_build_dialog(page: Page, logger=None):
+    """
+    检查并处理 It's time to build 弹窗的关闭按钮。
+    如果弹窗出现，则点击关闭按钮。
+    """
+    # 使用更精确的选择器定位关闭按钮
+    close_button_locator = page.locator("#warm-welcome-dialog-test-id > div > div > app-warm-welcome > mat-dialog-actions.mat-mdc-dialog-actions.mdc-dialog__actions.mat-mdc-dialog-actions-align-end > button > span.mat-mdc-button-persistent-ripple.mdc-icon-button__ripple")
+
+    try:
+        if close_button_locator.is_visible(timeout=10000): # 等待最多10秒
+            logger.info(f"检测到 It's time to build 弹窗，正在点击关闭按钮...")
+
+            close_button_locator.click(force=True)
+            logger.info(f"It's time to build 弹窗关闭按钮已点击。")
+            # 等待弹窗消失
+            page.wait_for_timeout(1000)
+            logger.info(f"It's time to build 弹窗已确认关闭。")
+        else:
+            logger.info(f"在10秒内未检测到 It's time to build 弹窗，继续执行...")
+    except Exception as e:
+        logger.info(f"检查 It's time to build 弹窗时发生意外：{e}，将继续执行...")
 
 def handle_successful_navigation(page: Page, logger, cookie_file_config):
     """
@@ -31,6 +53,9 @@ def handle_successful_navigation(page: Page, logger, cookie_file_config):
 
     # 检查并处理 "Last modified by..." 的弹窗
     handle_untrusted_dialog(page, logger=logger)
+
+    # 检查并处理 It's time to build 弹窗
+    handle_build_dialog(page, logger=logger)
 
     # 等待页面加载和渲染后截图
     logger.info("等待15秒以便页面完全渲染...")
