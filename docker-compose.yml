@@ -10,6 +10,8 @@ services:
         http_proxy: http://proxy.com:7890
         https_proxy: http://proxy.com:7890
         no_proxy: localhost,127.0.0.1
+     
+      network: host
 
     ports:
       - "5345:5345"
