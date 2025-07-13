@@ -15,7 +15,7 @@ def main():
     
     logger = setup_logging(os.path.join(log_dir, 'app.log'))
 
-    logger.info("------------Camoufox 实例管理器开始启动------------")
+    logger.info("---------------------Camoufox 实例管理器开始启动---------------------")
 
     parser = argparse.ArgumentParser(description="通过 YAML 配置文件并发运行多个 Camoufox 实例。")
     parser.add_argument("config_file", help="YAML 配置文件的路径。")

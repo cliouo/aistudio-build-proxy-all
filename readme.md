@@ -1,21 +1,26 @@
 # Docker版 aistudio-build-proxy
 集成 无头浏览器 + Websocket代理
 
-问题: 当前cookie导出方式导出的cookie可能时效较短.
+问题: ~~当前cookie导出方式导出的cookie可能时效较短.~~ 指纹浏览器导出cookie很稳
 
 ## 使用方法:
 1. 导出Cookie到项目`camoufox-py/cookies/`文件夹下
 
+    #### 更稳定的方法：
+   用指纹浏览器开个新窗口登录 google, 然后到指纹浏览器`编辑窗口`，把 cookie 复制出来用，然后删除浏览器窗口就行，这个 cookie 超稳！！！
+
+    <details>
+       <summary>旧方法（不再推荐）：cookie很容易因为主账户的个人使用活动导致导出的cookie失效。</summary>
     (1) 安装导出Cookie的插件, 这里推荐 [Global Cookie Manager浏览器插件](https://chromewebstore.google.com/detail/global-cookie-manager/bgffajlinmbdcileomeilpihjdgjiphb)
-
+    
     (2) 使用插件导出浏览器内所有涉及`google`的Cookie
-
+    
     导出Cookie示例图:
     ![Global Cookie Manager](/img/Global_Cookie_Manager.png)
     ![Global Cookie Manager2](/img/Global_Cookie_Manager2.png)
     
     (3) 粘贴到项目 `camoufox-py/cookies/[自己命名].json` 中
-
+    </details>
 2. 修改浏览器配置`camoufox-py/config.yaml`
 
     (1) 在`camoufox-py`下, 将示例配置文件`config.yaml.example`, 重命名为 `config.yaml`, 然后修改`config.yaml`
