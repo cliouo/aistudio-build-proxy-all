@@ -1,13 +1,24 @@
 services:
   camoufox:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # --- 修改 1: 强制构建时使用主机网络 ---
+      network: host
+      args:
+        # --- 修改 2: 将代理地址改回 127.0.0.1 ---
+        http_proxy: http://proxy.com:7890
+        https_proxy: http://proxy.com:7890
+        no_proxy: localhost,127.0.0.1
+
     ports:
       - "5345:5345"
     environment:
-      # 设置一个你最终Gemini服务的API密钥
-      - AUTH_API_KEY=your_set_api_key_here
+      - AUTH_API_KEY=xxx
     volumes:
       - ./camoufox-py/config.yaml:/app/config.yaml
       - ./camoufox-py/cookies:/app/cookies
       - ./camoufox-py/logs:/app/logs
+    # 注意：如果使用 host network，运行时的端口映射 ports 会失效
+    # 但我们只在 build 时使用 host network，运行时依然是独立的，所以 ports 配置保留
     restart: always
